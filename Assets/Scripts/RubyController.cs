@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class RubyController : MonoBehaviour
 {
+    public float speed = 3.0f;
+
+    public int maxHealth = 5;
+    int currentHealth;
+
+    Rigidbody2D rigidbody2d;
+
     void Start()
     {
+        rigidbody2d = GetComponent<Rigidbody2D>();
 
+        currentHealth = maxHealth;
+
+        Debug.Log(currentHealth + "/" + maxHealth);
     }
 
     void Update()
@@ -14,9 +25,17 @@ public class RubyController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector2 position = transform.position;
-        position.x += 3.0f * horizontal * Time.deltaTime;
-        position.y += 3.0f * vertical * Time.deltaTime;
-        transform.position = position;
+        Vector2 position = rigidbody2d.position;
+        position.x = position.x + speed * horizontal * Time.deltaTime;
+        position.y = position.y + speed * vertical * Time.deltaTime;
+
+        rigidbody2d.MovePosition(position);
+    }
+
+    void ChangeHealth(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount,
+            0, maxHealth);
+        Debug.Log(currentHealth + "/" + maxHealth);
     }
 }
