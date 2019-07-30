@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rigidbody2d;
 
+    Animator animator;
+
     void Start()
     {
         //Rigidbodyを使えるようにしている
@@ -24,6 +26,8 @@ public class EnemyController : MonoBehaviour
 
         //moveCountの初期値を代入
         timer = moveCount;
+
+        animator = GetComponent<Animator>();
 }
 
     void Update()
@@ -35,10 +39,15 @@ public class EnemyController : MonoBehaviour
         {
             position.y = position.y + speed * Time.deltaTime;
 
+            animator.SetFloat("Move X", 0);
+            animator.SetFloat("Move Y", speed);
         }
         else
         {
             position.x = position.x + speed * Time.deltaTime;
+
+            animator.SetFloat("Move X", speed);
+            animator.SetFloat("Move Y", 0);
         }
 
         timer -= Time.deltaTime;
@@ -53,4 +62,15 @@ public class EnemyController : MonoBehaviour
 
         rigidbody2d.MovePosition(position);
     }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        RubyController player = col.gameObject.GetComponent<RubyController>();
+
+        if (player != null)
+        {
+            player.ChangeHealth(-1);
+        }
+    }
+
 }
