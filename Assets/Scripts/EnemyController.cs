@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
 
     Animator animator;
 
+    private bool broken = true;
+
     void Start()
     {
         //Rigidbodyを使えるようにしている
@@ -32,6 +34,13 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        //ロボットに歯車が当たったらフラグが切り替わり
+        //動きを止める
+        if (!broken)
+        {
+            return;
+        }
+
         //初期ポジションを取得
         Vector2 position = rigidbody2d.position;
 
@@ -73,4 +82,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ロボットに歯車が当たったらフラグ切替
+    /// 動きを止める
+    /// </summary>
+    public void Fix()
+    {
+        broken = false;
+        rigidbody2d.simulated = false;
+
+        animator.SetTrigger("Fixed");
+    }
 }
