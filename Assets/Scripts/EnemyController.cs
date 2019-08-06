@@ -15,21 +15,25 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Header("移動軸設定用 trueだと縦")]
     public bool vertical;
 
-    Rigidbody2D rigidbody2d;
+    public Rigidbody2D rigidbody2d;
 
-    Animator animator;
+    public Animator animator;
 
     private bool broken = true;
+
+    public ParticleSystem smokeEffect;
 
     void Start()
     {
         //Rigidbodyを使えるようにしている
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        //rigidbody2d = GetComponent<Rigidbody2D>();
 
         //moveCountの初期値を代入
         timer = moveCount;
 
-        animator = GetComponent<Animator>();
+        //smokeEffect.Play();
+
+        //animator = GetComponent<Animator>();
 }
 
     void Update()
@@ -92,5 +96,8 @@ public class EnemyController : MonoBehaviour
         rigidbody2d.simulated = false;
 
         animator.SetTrigger("Fixed");
+
+        //smokeEffect.Stop();
+        Destroy(smokeEffect.gameObject);
     }
 }

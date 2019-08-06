@@ -86,6 +86,8 @@ public class RubyController : MonoBehaviour
             isInvincible = true;
             invincibleTimer = timeInvincible;
 
+            //todo ダメージ受けた時のエフェクト生成　Instantiate
+
             animator.SetTrigger("Hit");
         }
 
